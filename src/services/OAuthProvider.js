@@ -28,15 +28,15 @@ const OAuthProvider = ({ children }) => {
       setIsAuthenticated(true);
     });
   };
-  const logOut = () => {
+  const logOut = async () => {
     setToken('LOGOUT');
     setIsUserLogin(false);
+    const waitingBeforeToken = 1000;
+    setTimeout(authorizeClient, waitingBeforeToken);
   };
 
-  const getAccessTokenSilently = () => {
-    setToken('DEFECTO');
-    setIsUserLogin(false);
-    setIsAuthenticated(true);
+  const getAccessTokenSilently = async () => {
+    await authorizeClient();
   };
   return (
     <OAuthContext.Provider value={{
