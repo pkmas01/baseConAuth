@@ -12,12 +12,9 @@ import { saveToken, toggleIsAuthenticated } from '../redux/actions/session';
 import loginClient from '../utils/OAuthServices/loginClient';
 
 
-// eslint-disable-next-line no-unused-vars
-function ApolloWrapper({
+const ApolloWrapper = ({
   children, token, isAuthenticated, dispatch,
-}) {
-  // eslint-disable-next-line no-console
-  console.log(token);
+}) => {
   const httpLink = new HttpLink({
     uri: process.env.REACT_APP_API_URL,
   });
@@ -51,7 +48,7 @@ function ApolloWrapper({
   });
   if ((!isAuthenticated)) return (<>APP LOADING</>);
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
-}
+};
 
 const mapStateToProps = state => ({
   token: state.session.token,
