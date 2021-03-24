@@ -11,9 +11,12 @@ const UserCard = (props) => {
   } = me;
 
   return (
-    <>
+    <div>
       <p>{name} {lastName} </p>
-    </>
+      <p>{username} </p>
+      <p>{id} </p>
+      <img width={250} src={imageUrl} alt={username} />
+    </div>
   );
 };
 

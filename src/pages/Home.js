@@ -1,5 +1,5 @@
 import React from 'react';
-import Login from '../components/layout/Login';
+import Login from '../components/hoc/Login';
 import WithProduct from '../components/containers/WithProduct';
 import ProductDetailCard from '../components/ui/ProductDetailCard';
 
