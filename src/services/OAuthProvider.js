@@ -10,12 +10,12 @@ const OAuthProvider = ({ children }) => {
   const [isUserLogin, setIsUserLogin] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const loginClient = () => {
+  const authorizeClient = () => {
     setToken('ClientToken');
     setIsUserLogin(false);
     setIsAuthenticated(true);
   };
-  const loginUser = () => {
+  const authorizeUser = () => {
     setToken('LoginToken');
     setIsUserLogin(true);
     setIsAuthenticated(true);
@@ -32,7 +32,13 @@ const OAuthProvider = ({ children }) => {
   };
   return (
     <OAuthContext.Provider value={{
-      token, isUserLogin, loginClient, loginUser, logOut, isAuthenticated, getAccessTokenSilently,
+      token,
+      isUserLogin,
+      authorizeClient,
+      authorizeUser,
+      logOut,
+      isAuthenticated,
+      getAccessTokenSilently,
     }}
     >
       {children}
