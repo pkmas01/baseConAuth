@@ -28,14 +28,10 @@ const OAuthProvider = ({ children }) => {
       setIsAuthenticated(true);
     });
   };
-  const logOut = async () => {
-    setToken('LOGOUT');
-    setIsUserLogin(false);
-    const waitingBeforeToken = 1000;
-    setTimeout(authorizeClient, waitingBeforeToken);
-  };
-
   const getAccessTokenSilently = async () => {
+    await authorizeClient();
+  };
+  const logOut = async () => {
     await authorizeClient();
   };
   return (

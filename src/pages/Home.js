@@ -1,7 +1,7 @@
 import React from 'react';
-import TokenTest from '../ui/TokenTest';
-import WithProduct from '../containers/WithProduct';
-import ProductDetailCard from '../ui/ProductDetailCard';
+import Login from '../components/layout/Login';
+import WithProduct from '../components/containers/WithProduct';
+import ProductDetailCard from '../components/ui/ProductDetailCard';
 
 const Home = () => {
   const ean = '3608580759768';
@@ -9,7 +9,7 @@ const Home = () => {
 
   return (
     <>
-      <TokenTest />
+      <Login />
       <WithProduct ean={ean}>
         <ProductDetailCard />
       </WithProduct>

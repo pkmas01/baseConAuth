@@ -5,6 +5,7 @@ import {
   HttpLink,
   ApolloProvider,
 } from '@apollo/client';
+
 import { setContext } from '@apollo/client/link/context';
 import { useOAuth } from './OAuthProvider';
 
@@ -39,7 +40,7 @@ function ApolloWrapper({ children }) {
     cache: new InMemoryCache(),
     link: authLink.concat(httpLink),
   });
-
+  if ((!isAuthenticated)) return (<>APP LOADING</>);
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }
 
