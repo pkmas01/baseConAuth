@@ -1,20 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import OAuthProvider from './services/OAuthProvider';
-import reportWebVitals from './reportWebVitals';
+import ApolloWrapper from './services/ApolloWrapper';
 
 ReactDOM.render(
   <React.StrictMode>
     <OAuthProvider>
-      <App />
+      <ApolloWrapper>
+        <App />
+      </ApolloWrapper>
     </OAuthProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

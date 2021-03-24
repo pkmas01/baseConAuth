@@ -8,23 +8,31 @@ export const useOAuth = () => useContext(OAuthContext);
 const OAuthProvider = ({ children }) => {
   const [token, setToken] = useState(OAuthData);
   const [isUserLogin, setIsUserLogin] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const loginClient = () => {
     setToken('ClientToken');
     setIsUserLogin(false);
+    setIsAuthenticated(true);
   };
   const loginUser = () => {
     setToken('LoginToken');
     setIsUserLogin(true);
+    setIsAuthenticated(true);
   };
   const logOut = () => {
     setToken('ClientToken');
     setIsUserLogin(false);
   };
 
+  const getAccessTokenSilently = () => {
+    setToken('ClientToken');
+    setIsUserLogin(false);
+    setIsAuthenticated(true);
+  };
   return (
     <OAuthContext.Provider value={{
-      token, isUserLogin, loginClient, loginUser, logOut,
+      token, isUserLogin, loginClient, loginUser, logOut, isAuthenticated, getAccessTokenSilently,
     }}
     >
       {children}
