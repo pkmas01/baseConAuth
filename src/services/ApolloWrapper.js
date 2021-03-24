@@ -15,7 +15,7 @@ function ApolloWrapper({ children }) {
     token, isAuthenticated, getAccessTokenSilently,
   } = useOAuth();
   const httpLink = new HttpLink({
-    uri: 'http://localhost:4000',
+    uri: process.env.REACT_APP_API_URL,
   });
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function ApolloWrapper({ children }) {
       ...rest,
       headers: {
         ...headers,
-        authorization: `Bearer: ${bearerToken}`,
+        Authorization: `Bearer ${bearerToken}`,
       },
     };
   });

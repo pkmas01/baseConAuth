@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useOAuth } from '../services/OAuthProvider';
+import { useOAuth } from '../../services/OAuthProvider';
 
 export default function TokenTest() {
   const {
