@@ -1,6 +1,6 @@
 import React, { cloneElement } from 'react';
 import { useQuery } from '@apollo/client';
-import Me from '../../services/graphQl/queries/Me';
+import Me from '../../graphQl/queries/Me';
 
 
 const WithMe = (props) => {

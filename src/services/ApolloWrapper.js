@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import {
   ApolloClient,
   InMemoryCache,
@@ -7,29 +8,30 @@ import {
 } from '@apollo/client';
 
 import { setContext } from '@apollo/client/link/context';
-import { useOAuth } from './OAuthProvider';
-import loginClient from './OAuthServices/loginClient';
+import { saveToken, toggleIsAuthenticated } from '../redux/actions/session';
+import loginClient from '../utils/OAuthServices/loginClient';
 
-function ApolloWrapper({ children }) {
-  const {
-    state, dispatch,
-  } = useOAuth();
-  const { token, isAuthenticated } = state;
+
+// eslint-disable-next-line no-unused-vars
+function ApolloWrapper({
+  children, token, isAuthenticated, dispatch,
+}) {
+  // eslint-disable-next-line no-console
+  console.log(token);
   const httpLink = new HttpLink({
     uri: process.env.REACT_APP_API_URL,
   });
-
   useEffect(() => {
-    const getToken = async () => (isAuthenticated
-      ? token
-      : loginClient().then(r => r?.access_token));
-    getToken().then((r) => {
-      if (!isAuthenticated) {
-        dispatch({ type: 'SET_CLIENT_TOKEN', payload: r });
-        dispatch({ type: 'TOGGLE_AUTH' });
-      }
-    });
-  }, [isAuthenticated, token]);
+    if (!isAuthenticated && !token) {
+      loginClient().then((result) => {
+        const { access_token: accessToken } = result;
+        dispatch(saveToken(accessToken));
+        if (!isAuthenticated) {
+          dispatch(toggleIsAuthenticated());
+        }
+      });
+    }
+  }, []);
 
   const authLink = setContext((_, { headers, ...rest }) => {
     if (!token) return { headers, ...rest };
@@ -51,4 +53,8 @@ function ApolloWrapper({ children }) {
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }
 
-export default ApolloWrapper;
+const mapStateToProps = state => ({
+  token: state.session.token,
+  isAuthenticated: state.session.isAuthenticated,
+});
+export default connect(mapStateToProps)(ApolloWrapper);

@@ -1,32 +1,32 @@
 import React from 'react';
-import { useOAuth } from '../../services/OAuthProvider';
+import { connect } from 'react-redux';
 import UserCard from '../ui/UserCard';
 import WithMe from '../containers/WithMe';
 import loginUser from '../../utils/OAuthServices/loginUser';
+import { saveToken, toggleIsUserLogin } from '../../redux/actions/session';
 import loginClient from '../../utils/OAuthServices/loginClient';
 
-const Login2 = () => {
-  const {
-    state, dispatch,
-  } = useOAuth();
-  const { isUserLogin, token } = state;
+const Login2 = (props) => {
+  const { dispatch, isUserLogin, token } = props;
   const handleLoginUserClick = () => {
     const loginData = {
       username: 'samuel.perez@shopadvizor.com',
       password: 'Abcd1234',
     };
     loginUser({ ...loginData }).then((r) => {
-      dispatch({ type: 'SET_CLIENT_TOKEN', payload: r?.access_token });
+      const { access_token: accessToken } = r;
+      dispatch(saveToken(accessToken));
       if (!isUserLogin) {
-        dispatch({ type: 'TOGGLE_LOGIN' });
+        dispatch(toggleIsUserLogin());
       }
     });
   };
   const handleLogOutClick = () => {
     loginClient().then((r) => {
-      dispatch({ type: 'SET_CLIENT_TOKEN', payload: r?.access_token });
+      const { access_token: accessToken } = r;
+      dispatch(saveToken(accessToken));
       if (isUserLogin) {
-        dispatch({ type: 'TOGGLE_LOGIN' });
+        dispatch(toggleIsUserLogin());
       }
     });
   };
@@ -44,11 +44,16 @@ const Login2 = () => {
       {!isUserLogin
             && (
               <>
-                {token}
+                <p style={{ width: '800px', wordBreak: 'break-word' }}> {token}</p>
                 <button type="button" onClick={handleLoginUserClick}>Login User</button>
               </>
             )}
     </>
   );
 };
-export default Login2;
+
+const mapStateToProps = state => ({
+  token: state.session.token,
+  isUserLogin: state.session.isUserLogin,
+});
+export default connect(mapStateToProps)(Login2);

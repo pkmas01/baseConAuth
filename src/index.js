@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import OAuthProvider from './services/OAuthProvider';
+import ReduxProvider from './redux/ReduxProvider';
 import ApolloWrapper from './services/ApolloWrapper';
 
 ReactDOM.render(
   <React.StrictMode>
-    <OAuthProvider>
+    <ReduxProvider>
       <ApolloWrapper>
         <App />
       </ApolloWrapper>
-    </OAuthProvider>
+    </ReduxProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

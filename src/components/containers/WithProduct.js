@@ -1,6 +1,6 @@
 import React, { cloneElement } from 'react';
 import { useQuery } from '@apollo/client';
-import PRODUCT_BY_EAN_QUERY from '../../services/graphQl/queries/ProductByEan';
+import PRODUCT_BY_EAN_QUERY from '../../graphQl/queries/ProductByEan';
 
 
 const WithProduct = (props) => {
