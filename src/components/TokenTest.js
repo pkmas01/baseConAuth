@@ -7,12 +7,19 @@ export default function TokenTest() {
     token, isUserLogin, authorizeClient, authorizeUser, logOut,
   } = useOAuth();
 
+  const handleLoginUserClick = () => {
+    const loginData = {
+      username: 'samuel.perez@shopadvizor.com',
+      password: 'Abcd1234',
+    };
+    authorizeUser({ ...loginData });
+  };
   return (
     <>
       {isUserLogin && <h1>Estas Dentro</h1>}
-      {token.toString()}
+      <h2>{token.toString()}</h2>
       <button type="button" onClick={authorizeClient}>Login</button>
-      <button type="button" onClick={authorizeUser}>Login User</button>
+      <button type="button" onClick={handleLoginUserClick}>Login User</button>
       <button type="button" onClick={logOut}>LogOut</button>
 
     </>

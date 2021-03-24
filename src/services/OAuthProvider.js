@@ -1,4 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
+import loginClient from './OAuthServices/loginClient';
+import loginUser from './OAuthServices/loginUser';
 
 const OAuthData = {};
 const OAuthContext = createContext(undefined, undefined);
@@ -10,23 +12,29 @@ const OAuthProvider = ({ children }) => {
   const [isUserLogin, setIsUserLogin] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const authorizeClient = () => {
-    setToken('ClientToken');
-    setIsUserLogin(false);
-    setIsAuthenticated(true);
+  const authorizeClient = async () => {
+    loginClient().then((r) => {
+      const { access_token: accessToken } = r;
+      setToken(accessToken);
+      setIsUserLogin(false);
+      setIsAuthenticated(true);
+    });
   };
-  const authorizeUser = () => {
-    setToken('LoginToken');
-    setIsUserLogin(true);
-    setIsAuthenticated(true);
+  const authorizeUser = async (props) => {
+    loginUser(props).then((r) => {
+      const { access_token: accessToken } = r;
+      setToken(accessToken);
+      setIsUserLogin(true);
+      setIsAuthenticated(true);
+    });
   };
   const logOut = () => {
-    setToken('ClientToken');
+    setToken('LOGOUT');
     setIsUserLogin(false);
   };
 
   const getAccessTokenSilently = () => {
-    setToken('ClientToken');
+    setToken('DEFECTO');
     setIsUserLogin(false);
     setIsAuthenticated(true);
   };
