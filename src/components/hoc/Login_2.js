@@ -5,18 +5,17 @@ import WithMe from '../containers/WithMe';
 
 const Login2 = () => {
   const {
-    isUserLogin, authorizeUser, logOut,
+    state,
   } = useOAuth();
-
+  const { isUserLogin, token } = state;
   const handleLoginUserClick = () => {
     const loginData = {
       username: 'samuel.perez@shopadvizor.com',
       password: 'Abcd1234',
     };
-    authorizeUser({ ...loginData });
   };
   const handleLogOutClick = () => {
-    logOut();
+
   };
   return (
     <>
@@ -30,7 +29,12 @@ const Login2 = () => {
               </>
             )}
       {!isUserLogin
-            && (<button type="button" onClick={handleLoginUserClick}>Login User</button>)}
+            && (
+              <>
+                {token}
+                <button type="button" onClick={handleLoginUserClick}>Login User</button>
+              </>
+            )}
     </>
   );
 };

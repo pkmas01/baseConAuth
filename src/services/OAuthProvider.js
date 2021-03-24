@@ -1,66 +1,46 @@
 import React, {
-  createContext, useState, useContext, useReducer,
+  createContext, useContext, useReducer, useEffect,
 } from 'react';
-import loginClient from './OAuthServices/loginClient';
-import loginUser from './OAuthServices/loginUser';
 
-const OAuthData = {};
 const initialState = {
-  token: false,
-  isUserLogin: false,
-  isAuthenticated: false,
+  token: localStorage.getItem('token') || false,
+  isUserLogin: localStorage.getItem('isUserLogin') === 'true' || false,
+  isAuthenticated: localStorage.getItem('isAuthenticated') === 'true' || false,
 };
+
 const OAuthContext = createContext(initialState, undefined);
 const { Provider } = OAuthContext;
 export const useOAuth = () => useContext(OAuthContext);
 
 const OAuthProvider = ({ children }) => {
-  const [token, setToken] = useState(OAuthData);
-  const [isUserLogin, setIsUserLogin] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [state, dispatch] = useReducer((stateIn, action) => {
     const currentState = { ...stateIn };
     switch (action.type) {
-      case 'SET_TOKEN':
-        return { ...currentState, token: action.payload };
-      case 'LOGOUT':
-        return { ...currentState, token: false };
+      case 'SET_CLIENT_TOKEN':
+        return {
+          ...currentState, token: action.payload,
+        };
+      case 'TOGGLE_AUTH':
+        return {
+          ...currentState, isAuthenticated: !currentState.isAuthenticated,
+        };
+      case 'TOGGLE_LOGIN':
+        return {
+          ...currentState, isUserLogin: !currentState.isUserLogin,
+        };
       default:
         throw new Error();
     }
   }, initialState);
 
-  const authorizeClient = async () => {
-    loginClient().then((r) => {
-      const { access_token: accessToken } = r;
-      setToken(accessToken);
-      setIsUserLogin(false);
-      setIsAuthenticated(true);
-    });
-  };
-  const authorizeUser = async (props) => {
-    loginUser(props).then((r) => {
-      const { access_token: accessToken } = r;
-      setToken(accessToken);
-      setIsUserLogin(true);
-      setIsAuthenticated(true);
-    });
-  };
-  const getAccessTokenSilently = async () => {
-    await authorizeClient();
-  };
-  const logOut = async () => {
-    await authorizeClient();
-  };
+  useEffect((() => {
+    localStorage.setItem('token', state.token);
+    localStorage.setItem('isUserLogin', state.isUserLogin);
+    localStorage.setItem('isAuthenticated', state.isAuthenticated);
+  }), [state]);
+
   return (
     <Provider value={{
-      token,
-      isUserLogin,
-      authorizeClient,
-      authorizeUser,
-      logOut,
-      isAuthenticated,
-      getAccessTokenSilently,
       state,
       dispatch,
     }}

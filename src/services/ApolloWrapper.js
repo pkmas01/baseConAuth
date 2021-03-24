@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   ApolloClient,
   InMemoryCache,
@@ -8,30 +8,37 @@ import {
 
 import { setContext } from '@apollo/client/link/context';
 import { useOAuth } from './OAuthProvider';
-
+import loginClient from './OAuthServices/loginClient';
 
 function ApolloWrapper({ children }) {
-  const [bearerToken, setBearerToken] = useState('');
   const {
-    token, isAuthenticated, getAccessTokenSilently,
+    state, dispatch,
   } = useOAuth();
+  const { token, isAuthenticated } = state;
   const httpLink = new HttpLink({
     uri: process.env.REACT_APP_API_URL,
   });
 
   useEffect(() => {
-    const getToken = async () => (isAuthenticated ? token : getAccessTokenSilently());
-    getToken().then(r => setBearerToken(r));
-  }, [getAccessTokenSilently, isAuthenticated]);
+    const getToken = async () => (isAuthenticated
+      ? token
+      : loginClient().then(r => r?.access_token));
+    getToken().then((r) => {
+      if (!isAuthenticated) {
+        dispatch({ type: 'SET_CLIENT_TOKEN', payload: r });
+        dispatch({ type: 'TOGGLE_AUTH' });
+      }
+    });
+  }, [isAuthenticated]);
 
   const authLink = setContext((_, { headers, ...rest }) => {
-    if (!bearerToken) return { headers, ...rest };
+    if (!token) return { headers, ...rest };
 
     return {
       ...rest,
       headers: {
         ...headers,
-        Authorization: `Bearer ${bearerToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
   });
