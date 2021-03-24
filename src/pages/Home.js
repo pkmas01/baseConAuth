@@ -1,5 +1,5 @@
 import React from 'react';
-import Login from '../components/hoc/Login';
+import Login2 from '../components/hoc/Login_2';
 import WithProduct from '../components/containers/WithProduct';
 import ProductDetailCard from '../components/ui/ProductDetailCard';
 
@@ -9,7 +9,7 @@ const Home = () => {
 
   return (
     <>
-      <Login />
+      <Login2 />
       <WithProduct ean={ean}>
         <ProductDetailCard />
       </WithProduct>
