@@ -29,7 +29,7 @@ function ApolloWrapper({ children }) {
         dispatch({ type: 'TOGGLE_AUTH' });
       }
     });
-  }, [isAuthenticated]);
+  }, [isAuthenticated, token]);
 
   const authLink = setContext((_, { headers, ...rest }) => {
     if (!token) return { headers, ...rest };
