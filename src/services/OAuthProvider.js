@@ -3,9 +3,9 @@ import React, {
 } from 'react';
 
 const initialState = {
-  token: localStorage.getItem('token') || false,
-  isUserLogin: localStorage.getItem('isUserLogin') === 'true' || false,
-  isAuthenticated: localStorage.getItem('isAuthenticated') === 'true' || false,
+  token: false,
+  isUserLogin: false,
+  isAuthenticated: false,
 };
 
 const OAuthContext = createContext(initialState, undefined);

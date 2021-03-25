@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import OAuthProvider from './services/OAuthProvider';
 import ApolloWrapper from './services/ApolloWrapper';
+import AppStore from './store/AppStoreContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <OAuthProvider>
+    <AppStore>
       <ApolloWrapper>
         <App />
       </ApolloWrapper>
-    </OAuthProvider>
+    </AppStore>
   </React.StrictMode>,
   document.getElementById('root'),
 );
