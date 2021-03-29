@@ -1,12 +1,16 @@
 import React from 'react';
+import { useReactiveVar } from '@apollo/client';
 import UserCard from '../ui/UserCard';
 import WithMe from '../containers/WithMe';
+import { tokenVar, isLoggedInVar } from '../../services/cache';
+import loginUser from '../../services/REST/loginUser';
+import loginClient from '../../services/REST/loginClient';
 
 const Login = () => {
   const {
     isUserLogin,
   } = {
-    isUserLogin: false,
+    isUserLogin: useReactiveVar(isLoggedInVar),
   };
 
   const handleLoginUserClick = () => {
@@ -14,9 +18,16 @@ const Login = () => {
       username: 'samuel.perez@shopadvizor.com',
       password: 'Abcd1234',
     };
+    loginUser(loginData).then((result) => {
+      isLoggedInVar(true);
+      tokenVar(result.access_token);
+    });
   };
   const handleLogOutClick = () => {
-
+    loginClient().then((result) => {
+      isLoggedInVar(false);
+      tokenVar(result.access_token);
+    });
   };
   return (
     <>

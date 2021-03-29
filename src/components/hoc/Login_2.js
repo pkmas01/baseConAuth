@@ -2,8 +2,8 @@ import React from 'react';
 import { useOAuth } from '../../services/OAuthProvider';
 import UserCard from '../ui/UserCard';
 import WithMe from '../containers/WithMe';
-import loginUser from '../../services/OAuthServices/loginUser';
-import loginClient from '../../services/OAuthServices/loginClient';
+import loginUser from '../../services/REST/loginUser';
+import loginClient from '../../services/REST/loginClient';
 
 const Login2 = () => {
   const {
