@@ -1,6 +1,7 @@
 import React from 'react';
-import Login2 from '../components/hoc/Login_2';
+import Login4 from '../components/hoc/Login4';
 import WithProduct from '../components/containers/WithProduct';
+import WithSession from '../components/containers/WithSession';
 import ProductDetailCard from '../components/ui/ProductDetailCard';
 
 const Home = () => {
@@ -9,7 +10,9 @@ const Home = () => {
 
   return (
     <>
-      <Login2 />
+      <WithSession>
+        <Login4 />
+      </WithSession>
       <WithProduct ean={ean}>
         <ProductDetailCard />
       </WithProduct>

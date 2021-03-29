@@ -1,5 +1,5 @@
 const loginClient = async () => fetch(process.env.REACT_APP_OAUTH_URL, {
-  method: 'post',
+  method: 'POST',
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   body: new URLSearchParams({
     grant_type: process.env.REACT_APP_CREDENTIALS_GRANT_TYPE,
