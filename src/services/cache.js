@@ -1,6 +1,5 @@
 import { InMemoryCache, makeVar } from '@apollo/client';
 
-
 const ApolloCache = new InMemoryCache({
   typePolicies: {
     Query: {
@@ -33,6 +32,6 @@ const ApolloCache = new InMemoryCache({
 
 export default ApolloCache;
 
-export const isLoggedInVar = makeVar(false);
-export const tokenVar = makeVar('');
-export const isAuthenticatedVar = makeVar(false);
+export const isLoggedInVar = makeVar(window.localStorage.getItem('isLoggedIn') === 'true' || false);
+export const tokenVar = makeVar(window.localStorage.getItem('token') || false);
+export const isAuthenticatedVar = makeVar(!!window.localStorage.getItem('token'));
